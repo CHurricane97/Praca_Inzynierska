@@ -14,7 +14,7 @@ public class AuthConfig {
     public CommandLineRunner createAdminAccount(AuthService authService) {
         return args -> {
             try {
-                authService.registerUser(new Users("admin", 2, "abba"));
+                //authService.registerUser(new Users("admin1", 2, "abba"));
             }
             catch (IllegalArgumentException ignored) {
             }

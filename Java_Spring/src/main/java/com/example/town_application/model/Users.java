@@ -33,10 +33,11 @@ public class Users {
     private PersonalData personalDataForUsers;
 
 
-    public Users(String login, int permissionLevel, String password) {
+    public Users(String login, int permissionLevel, String password, PersonalData pdata) {
         this.login = login;
         this.password = password;
         this.permissionLevel = permissionLevel;
+        this.personalDataForUsers =pdata;
     }
 
     public Users() {

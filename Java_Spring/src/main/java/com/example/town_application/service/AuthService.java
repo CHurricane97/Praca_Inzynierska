@@ -1,7 +1,9 @@
 package com.example.town_application.service;
 
 import com.example.town_application.model.AuthToken;
+import com.example.town_application.model.PersonalData;
 import com.example.town_application.model.Users;
+import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,11 @@ public class AuthService {
     private final List<AuthToken> authTokens;
     private final SecureRandom random;
     private final UsersRepository userRepository;
+    private final PersonalDataRepository personalDataRepository;
 
-    public AuthService(UsersRepository userRepository) {
+    public AuthService(UsersRepository userRepository, PersonalDataRepository personalDataRepository) {
         this.userRepository = userRepository;
+        this.personalDataRepository = personalDataRepository;
         this.authTokens = new ArrayList<>();
         this.random = new SecureRandom();
         authTokens.add(new AuthToken("permission1", "testMail1", 1));//TODO: remove this two lines
@@ -77,10 +81,17 @@ public class AuthService {
     }
 
 
-    public void registerUser(Users user) throws NoSuchAlgorithmException {
+    public void registerUser(Users user, PersonalData personalData) throws NoSuchAlgorithmException {
         if (userRepository.findByLogin(user.getLogin()) != null)
             throw new IllegalArgumentException("Account already registered.");
         user.setPassword(hashPassword(user.getPassword()));
+        user.setPersonalDataForUsers(personalData);
+        personalData.setName("dupa");
+        personalData.setPesel("2131");
+        personalData.setSurname("2121");
+
+        personalDataRepository.save(personalData);
+
         userRepository.save(user);
     }
 
