@@ -1,22 +1,76 @@
-CREATE TABLE Personal_Data (Personal_Data_ID SERIAL NOT NULL, Name varchar(255) NOT NULL, Surname varchar(255) NOT NULL, PESEL varchar(11) NOT NULL UNIQUE, Date_Of_Birth date, City varchar(255), City_Code varchar(255), Street varchar(255), House_Number varchar(255), Flat_Number varchar(255), PRIMARY KEY (Personal_Data_ID));
-CREATE TABLE Users (User_ID SERIAL NOT NULL, Login varchar(255) NOT NULL UNIQUE, Password varchar(255) NOT NULL, Account_Type_ID int4 NOT NULL, Personal_Data_ID int4 NOT NULL, PRIMARY KEY (User_ID));
-CREATE TABLE Account_Type (Account_Type_ID SERIAL NOT NULL, Type varchar(255) NOT NULL, PRIMARY KEY (Account_Type_ID));
-CREATE TABLE Motion (Motion_ID SERIAL NOT NULL, Personal_Data_ID int4 NOT NULL, Motion_Type_ID int4 NOT NULL, Motion_State_ID int4 NOT NULL, PRIMARY KEY (Motion_ID));
-CREATE TABLE Motion_Type (Motion_Type_ID SERIAL NOT NULL, Type varchar(255) NOT NULL, PRIMARY KEY (Motion_Type_ID));
-CREATE TABLE Motion_State (Motion_State_ID SERIAL NOT NULL, State varchar(255) NOT NULL, PRIMARY KEY (Motion_State_ID));
-CREATE TABLE Action_Taken_In_Motion (Action_Taken_In_Motion_ID SERIAL NOT NULL, Motion_ID int4 NOT NULL, Personal_Data_ID int4 NOT NULL, Action_Type_ID int4 NOT NULL, PRIMARY KEY (Action_Taken_In_Motion_ID));
-CREATE TABLE Evaluation (Evaluation_ID SERIAL NOT NULL, Motion_ID int4 NOT NULL, Personal_Data_ID int4 NOT NULL, Grade int4 NOT NULL, Description varchar(1023), PRIMARY KEY (Evaluation_ID));
-CREATE TABLE Action_Type (Action_Type_ID SERIAL NOT NULL, Type varchar(255) NOT NULL, PRIMARY KEY (Action_Type_ID));
-CREATE UNIQUE INDEX Personal_Data_Personal_Data_ID ON Personal_Data (Personal_Data_ID);
-CREATE UNIQUE INDEX Users_User_ID ON Users (User_ID);
-CREATE UNIQUE INDEX Account_Type_Account_Type_ID ON Account_Type (Account_Type_ID);
-CREATE UNIQUE INDEX Motion_Motion_ID ON Motion (Motion_ID);
-CREATE UNIQUE INDEX Motion_Type_Motion_Type_ID ON Motion_Type (Motion_Type_ID);
-CREATE UNIQUE INDEX Motion_State_Motion_State_ID ON Motion_State (Motion_State_ID);
-CREATE UNIQUE INDEX Action_Taken_In_Motion_Action_Taken_In_Motion_ID ON Action_Taken_In_Motion (Action_Taken_In_Motion_ID);
-CREATE UNIQUE INDEX Evaluation_Evaluation_ID ON Evaluation (Evaluation_ID);
-CREATE UNIQUE INDEX Action_Type_Action_Type_ID ON Action_Type (Action_Type_ID);
-ALTER TABLE Users ADD CONSTRAINT FKUsers71411 FOREIGN KEY (Account_Type_ID) REFERENCES Account_Type (Account_Type_ID);
+CREATE TABLE Personal_Data (
+  Personal_Data_ID SERIAL NOT NULL, 
+  Name             varchar(255) NOT NULL, 
+  Surname          varchar(255) NOT NULL, 
+  PESEL            varchar(11) NOT NULL UNIQUE, 
+  Date_Of_Birth    date, 
+  City             varchar(255), 
+  City_Code        varchar(255), 
+  Street           varchar(255), 
+  House_Number     varchar(255), 
+  Flat_Number      varchar(255), 
+  PRIMARY KEY (Personal_Data_ID));
+CREATE TABLE Users (
+  User_ID          SERIAL NOT NULL, 
+  Login            varchar(255) NOT NULL UNIQUE, 
+  Password         varchar(255) NOT NULL, 
+  Permission_Level int4 NOT NULL, 
+  Personal_Data_ID int4 NOT NULL, 
+  PRIMARY KEY (User_ID));
+CREATE TABLE Motion (
+  Motion_ID        SERIAL NOT NULL, 
+  Personal_Data_ID int4 NOT NULL, 
+  Motion_Type_ID   int4 NOT NULL, 
+  Motion_State_ID  int4 NOT NULL, 
+  PRIMARY KEY (Motion_ID));
+CREATE TABLE Motion_Type (
+  Motion_Type_ID SERIAL NOT NULL, 
+  Type           varchar(255) NOT NULL, 
+  PRIMARY KEY (Motion_Type_ID));
+CREATE TABLE Motion_State (
+  Motion_State_ID SERIAL NOT NULL, 
+  State           varchar(255) NOT NULL, 
+  PRIMARY KEY (Motion_State_ID));
+CREATE TABLE Action_Taken_In_Motion (
+  Action_Taken_In_Motion_ID SERIAL NOT NULL, 
+  Motion_ID                 int4 NOT NULL, 
+  Personal_Data_ID          int4 NOT NULL, 
+  Action_Type_ID            int4 NOT NULL, 
+  PRIMARY KEY (Action_Taken_In_Motion_ID));
+CREATE TABLE Evaluation (
+  Evaluation_ID    SERIAL NOT NULL, 
+  Motion_ID        int4 NOT NULL, 
+  Personal_Data_ID int4 NOT NULL, 
+  Grade            int4 NOT NULL, 
+  Description      varchar(1023), 
+  PRIMARY KEY (Evaluation_ID));
+CREATE TABLE Action_Type (
+  Action_Type_ID SERIAL NOT NULL, 
+  Type           varchar(255) NOT NULL, 
+  PRIMARY KEY (Action_Type_ID));
+CREATE TABLE Login_Register (
+  Login_Register_ID SERIAL NOT NULL, 
+  User_ID           int4 NOT NULL, 
+  Date_Of_Logging   timestamp NOT NULL, 
+  PRIMARY KEY (Login_Register_ID));
+CREATE UNIQUE INDEX Personal_Data_Personal_Data_ID 
+  ON Personal_Data (Personal_Data_ID);
+CREATE UNIQUE INDEX Users_User_ID 
+  ON Users (User_ID);
+CREATE UNIQUE INDEX Motion_Motion_ID 
+  ON Motion (Motion_ID);
+CREATE UNIQUE INDEX Motion_Type_Motion_Type_ID 
+  ON Motion_Type (Motion_Type_ID);
+CREATE UNIQUE INDEX Motion_State_Motion_State_ID 
+  ON Motion_State (Motion_State_ID);
+CREATE UNIQUE INDEX Action_Taken_In_Motion_Action_Taken_In_Motion_ID 
+  ON Action_Taken_In_Motion (Action_Taken_In_Motion_ID);
+CREATE UNIQUE INDEX Evaluation_Evaluation_ID 
+  ON Evaluation (Evaluation_ID);
+CREATE UNIQUE INDEX Action_Type_Action_Type_ID 
+  ON Action_Type (Action_Type_ID);
+CREATE UNIQUE INDEX Login_Register_Login_Register_ID 
+  ON Login_Register (Login_Register_ID);
 ALTER TABLE Users ADD CONSTRAINT FKUsers482500 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID);
 ALTER TABLE Motion ADD CONSTRAINT FKMotion920024 FOREIGN KEY (Motion_Type_ID) REFERENCES Motion_Type (Motion_Type_ID);
 ALTER TABLE Motion ADD CONSTRAINT FKMotion997151 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID);
@@ -26,3 +80,4 @@ ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak903898 FOREIGN KEY
 ALTER TABLE Evaluation ADD CONSTRAINT FKEvaluation365380 FOREIGN KEY (Motion_ID) REFERENCES Motion (Motion_ID);
 ALTER TABLE Evaluation ADD CONSTRAINT FKEvaluation523964 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID);
 ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak834207 FOREIGN KEY (Action_Type_ID) REFERENCES Action_Type (Action_Type_ID);
+ALTER TABLE Login_Register ADD CONSTRAINT FKLogin_Regi939181 FOREIGN KEY (User_ID) REFERENCES Users (User_ID);

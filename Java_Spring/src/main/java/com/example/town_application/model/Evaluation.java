@@ -1,78 +1,40 @@
 package com.example.town_application.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "evaluation", schema = "public", catalog = "Town_Database")
 public class Evaluation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "evaluation_id")
+    @Column(name = "evaluation_id", nullable = false)
     private int evaluationId;
     @Basic
-    @Column(name = "motion_id")
+    @Column(name = "motion_id", nullable = false)
     private int motionId;
     @Basic
-    @Column(name = "personal_data_id")
+    @Column(name = "personal_data_id", nullable = false)
     private int personalDataId;
     @Basic
-    @Column(name = "grade")
+    @Column(name = "grade", nullable = false)
     private int grade;
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", nullable = true, length = 1023)
     private String description;
+    @ManyToOne(targetEntity = Motion.class)
+    @JoinColumn(name = "motion_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Motion motionForEvaluation;
+    @ManyToOne(targetEntity = PersonalData.class)
+    @JoinColumn(name = "personal_data_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private PersonalData personalDataForEvaluation;
 
-    public int getEvaluationId() {
-        return evaluationId;
-    }
 
-    public void setEvaluationId(int evaluationId) {
-        this.evaluationId = evaluationId;
-    }
-
-    public int getMotionId() {
-        return motionId;
-    }
-
-    public void setMotionId(int motionId) {
-        this.motionId = motionId;
-    }
-
-    public int getPersonalDataId() {
-        return personalDataId;
-    }
-
-    public void setPersonalDataId(int personalDataId) {
-        this.personalDataId = personalDataId;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Evaluation that = (Evaluation) o;
-        return evaluationId == that.evaluationId && motionId == that.motionId && personalDataId == that.personalDataId && grade == that.grade && Objects.equals(description, that.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(evaluationId, motionId, personalDataId, grade, description);
-    }
 }
