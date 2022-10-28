@@ -25,9 +25,6 @@ public class Users {
     @Basic
     @Column(name = "permission_level", nullable = false)
     private int permissionLevel;
-    @Basic
-    @Column(name = "personal_data_id", nullable = false)
-    private int personalDataId;
     @OneToMany(mappedBy = "usersByUserId", cascade = CascadeType.ALL)
     private Collection<LoginRegister> loginRegistersByUserId;
     @ManyToOne(targetEntity = PersonalData.class)
@@ -40,5 +37,9 @@ public class Users {
         this.login = login;
         this.password = password;
         this.permissionLevel = permissionLevel;
+    }
+
+    public Users() {
+
     }
 }

@@ -18,9 +18,6 @@ public class LoginRegister {
     @Column(name = "login_register_id", nullable = false)
     private int loginRegisterId;
     @Basic
-    @Column(name = "user_id", nullable = false)
-    private int userId;
-    @Basic
     @Column(name = "date_of_logging", nullable = false)
     private Timestamp dateOfLogging;
     @ManyToOne(targetEntity = Users.class)

@@ -16,12 +16,6 @@ public class ActionTakenInMotion {
     @Id
     @Column(name = "action_taken_in_motion_id", nullable = false)
     private int actionTakenInMotionId;
-    @Basic
-    @Column(name = "personal_data_id", nullable = false)
-    private int personalDataId;
-    @Basic
-    @Column(name = "action_type_id", nullable = false)
-    private int actionTypeId;
     @ManyToOne(targetEntity = Motion.class)
     @JoinColumn(name = "motion_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

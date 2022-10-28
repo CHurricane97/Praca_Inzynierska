@@ -15,12 +15,7 @@ public class Evaluation {
     @Id
     @Column(name = "evaluation_id", nullable = false)
     private int evaluationId;
-    @Basic
-    @Column(name = "motion_id", nullable = false)
-    private int motionId;
-    @Basic
-    @Column(name = "personal_data_id", nullable = false)
-    private int personalDataId;
+
     @Basic
     @Column(name = "grade", nullable = false)
     private int grade;

@@ -16,15 +16,6 @@ public class Motion {
     @Id
     @Column(name = "motion_id", nullable = false)
     private int motionId;
-    @Basic
-    @Column(name = "personal_data_id", nullable = false)
-    private int personalDataId;
-    @Basic
-    @Column(name = "motion_type_id", nullable = false)
-    private int motionTypeId;
-    @Basic
-    @Column(name = "motion_state_id", nullable = false)
-    private int motionStateId;
     @OneToMany(mappedBy = "motionForActionInMotions", cascade = CascadeType.ALL)
     private Collection<ActionTakenInMotion> actionTakenInMotionsByMotionId;
     @OneToMany(mappedBy = "motionForEvaluation", cascade = CascadeType.ALL)
