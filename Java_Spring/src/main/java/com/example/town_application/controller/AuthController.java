@@ -58,12 +58,12 @@ public class AuthController {
 
     @RequestMapping("/register")
     @PutMapping
-    public ResponseEntity<Object> register(@RequestBody Users user, PersonalData personalData) {
+    public ResponseEntity<Object> register(@RequestBody Users user) {
         Map<String, Object> resp = new HashMap<>();
         try {
             if (user.getPermissionLevel() != 0)
                 throw new IllegalArgumentException("Creating admin accounts is not allowed.");
-            authService.registerUser(user, personalData);
+            authService.registerUser(user);
             resp.put("status", "success");
             return ResponseEntity.ok(resp);
 

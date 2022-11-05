@@ -38,7 +38,7 @@ public class AuthService {
                 && stream.getPermissionLevel() >= permissionLevel);
     }
 
-    public Optional<AuthToken> getTokenForEmail(String email){
+    public Optional<AuthToken> getTokenForEmail(String email) {
         return authTokens.stream().filter(authToken -> authToken.getEmail().equals(email)).findAny();
     }
 
@@ -47,7 +47,7 @@ public class AuthService {
         return authTokens.stream().filter(authToken -> authToken.getAuthToken().equals(token)).findAny();
     }
 
-    public AuthToken createToken(String email, int permissionLevel){
+    public AuthToken createToken(String email, int permissionLevel) {
         AuthToken newToken = new AuthToken(email, permissionLevel);
         authTokens.add(newToken);
         return newToken;
@@ -65,9 +65,8 @@ public class AuthService {
     }
 
 
-
     private String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
 
         md.update(password.getBytes());
 
@@ -81,23 +80,23 @@ public class AuthService {
     }
 
 
-    public void registerUser(Users user, PersonalData personalData) throws NoSuchAlgorithmException {
+    public void registerUser(Users user) throws NoSuchAlgorithmException {
         if (userRepository.findByLogin(user.getLogin()) != null)
             throw new IllegalArgumentException("Account already registered.");
         user.setPassword(hashPassword(user.getPassword()));
-        user.setPersonalDataForUsers(personalData);
-        personalData.setName("dupa");
-        personalData.setPesel("2131");
-        personalData.setSurname("2121");
 
-        personalDataRepository.save(personalData);
-
+        if (personalDataRepository.findByPesel(user.getPersonalDataForUsers().getPesel()).isEmpty()) {
+            user.setPersonalDataForUsers(user.getPersonalDataForUsers());
+            personalDataRepository.save(user.getPersonalDataForUsers());
+        } else {
+            user.setPersonalDataForUsers(personalDataRepository.findByPesel(user.getPersonalDataForUsers().getPesel()).get());
+        }
         userRepository.save(user);
     }
 
     public void revoke(String token) {
         Optional<AuthToken> authToken = getTokenObjForTokenStr(token);
         if (authToken.isEmpty()) throw new IllegalArgumentException("Token does not exist.");
-        authTokens.remove(authToken);
+        authTokens.remove(authToken.get());
     }
 }
