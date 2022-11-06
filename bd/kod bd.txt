@@ -13,9 +13,9 @@ CREATE TABLE Personal_Data (
 CREATE TABLE Users (
   User_ID          SERIAL NOT NULL, 
   Login            varchar(255) NOT NULL UNIQUE, 
-  Password         varchar(255) NOT NULL, 
-  Permission_Level int4 NOT NULL, 
+  Password         varchar(511) NOT NULL, 
   Personal_Data_ID int4 NOT NULL, 
+  Permision_Type   int4 NOT NULL, 
   PRIMARY KEY (User_ID));
 CREATE TABLE Motion (
   Motion_ID        SERIAL NOT NULL, 
@@ -71,33 +71,35 @@ CREATE UNIQUE INDEX Action_Type_Action_Type_ID
   ON Action_Type (Action_Type_ID);
 CREATE UNIQUE INDEX Login_Register_Login_Register_ID 
   ON Login_Register (Login_Register_ID);
-ALTER TABLE Users ADD CONSTRAINT FKUsers1 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID) 
+ALTER TABLE Users ADD CONSTRAINT FKUsers482500 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Motion ADD CONSTRAINT FKMotion1 FOREIGN KEY (Motion_Type_ID) REFERENCES Motion_Type (Motion_Type_ID) 
+ALTER TABLE Motion ADD CONSTRAINT FKMotion920024 FOREIGN KEY (Motion_Type_ID) REFERENCES Motion_Type (Motion_Type_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Motion ADD CONSTRAINT FKMotion2 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID) 
+ALTER TABLE Motion ADD CONSTRAINT FKMotion997151 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Motion ADD CONSTRAINT FKMotion3 FOREIGN KEY (Motion_State_ID) REFERENCES Motion_State (Motion_State_ID) 
+ALTER TABLE Motion ADD CONSTRAINT FKMotion143182 FOREIGN KEY (Motion_State_ID) REFERENCES Motion_State (Motion_State_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak1 FOREIGN KEY (Motion_ID) REFERENCES Motion (Motion_ID) 
+ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak909107 FOREIGN KEY (Motion_ID) REFERENCES Motion (Motion_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak2 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID) 
+ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak903898 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Evaluation ADD CONSTRAINT FKEvaluation1 FOREIGN KEY (Motion_ID) REFERENCES Motion (Motion_ID) 
+ALTER TABLE Evaluation ADD CONSTRAINT FKEvaluation365380 FOREIGN KEY (Motion_ID) REFERENCES Motion (Motion_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Evaluation ADD CONSTRAINT FKEvaluation2 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID) 
+ALTER TABLE Evaluation ADD CONSTRAINT FKEvaluation523964 FOREIGN KEY (Personal_Data_ID) REFERENCES Personal_Data (Personal_Data_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak3 FOREIGN KEY (Action_Type_ID) REFERENCES Action_Type (Action_Type_ID) 
+ALTER TABLE Action_Taken_In_Motion ADD CONSTRAINT FKAction_Tak834207 FOREIGN KEY (Action_Type_ID) REFERENCES Action_Type (Action_Type_ID)
 on update restrict 
 on delete cascade;
-ALTER TABLE Login_Register ADD CONSTRAINT FKLogin_Regi1 FOREIGN KEY (User_ID) REFERENCES Users (User_ID) 
+ALTER TABLE Login_Register ADD CONSTRAINT FKLogin_Regi939181 FOREIGN KEY (User_ID) REFERENCES Users (User_ID)
 on update restrict 
 on delete cascade;
+
+

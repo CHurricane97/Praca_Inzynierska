@@ -13,9 +13,9 @@ CREATE TABLE Personal_Data (
 CREATE TABLE Users (
   User_ID          SERIAL NOT NULL, 
   Login            varchar(255) NOT NULL UNIQUE, 
-  Password         varchar(255) NOT NULL, 
-  Permission_Level int4 NOT NULL, 
+  Password         varchar(511) NOT NULL, 
   Personal_Data_ID int4 NOT NULL, 
+  Permision_Type   int4 NOT NULL, 
   PRIMARY KEY (User_ID));
 CREATE TABLE Motion (
   Motion_ID        SERIAL NOT NULL, 
