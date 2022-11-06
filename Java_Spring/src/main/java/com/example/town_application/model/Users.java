@@ -1,6 +1,7 @@
 package com.example.town_application.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,11 +21,11 @@ public class Users {
     @Column(name = "login", nullable = false, length = 255)
     private String login;
     @Basic
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(name = "password", nullable = false, length = 511)
     private String password;
     @Basic
-    @Column(name = "permission_level", nullable = false)
-    private int permissionLevel;
+    @Column(name = "permission_level", nullable = false, length = 255)
+    private String permissionLevel;
     @OneToMany(mappedBy = "usersByUserId", cascade = CascadeType.ALL)
     private Collection<LoginRegister> loginRegistersByUserId;
     @ManyToOne(targetEntity = PersonalData.class)
@@ -33,11 +34,11 @@ public class Users {
     private PersonalData personalDataForUsers;
 
 
-    public Users(String login, int permissionLevel, String password, PersonalData pdata) {
+    public Users(String login, String password, String permissionLevel, PersonalData pdata) {
         this.login = login;
         this.password = password;
         this.permissionLevel = permissionLevel;
-        this.personalDataForUsers =pdata;
+        this.personalDataForUsers = pdata;
     }
 
     public Users() {
