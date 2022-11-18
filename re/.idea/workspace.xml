@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cd503ff5-18d4-4f54-a93f-11440abc8136" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/repository/PersonalDataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/repository/PersonalDataRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Java_Spring/src/main/java/com/example/town_application/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Seminarium/Prezentacja1.pptx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Seminarium/Prezentacja22.pptx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UML/Praca_Inz.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/../UML/Praca_Inz.vpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/.systemproject.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/.systemproject.vpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/.vp.preference" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/.vp.preference" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/LayoutPerspectiveData/_C4AVxKD.AACAQOEC.lod" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/LayoutPerspectiveData/_C4AVxKD.AACAQOEC.lod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/LayoutPerspectiveData/_C4AVxKD.AACAQOEMC.lod" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/LayoutPerspectiveData/_C4AVxKD.AACAQOEMC.lod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/projectsViewInfo/B7tcO8GGAqBwAQWp" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/projectsViewInfo/B7tcO8GGAqBwAQWp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/resourceCatalog.dat" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/resourceCatalog.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/sideComponents/Indexing.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/sideComponents/Indexing.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../VParadigm/.vpprefdata/treestates/mVVpO8GGAqBwAQ0D" beforeDir="false" afterPath="$PROJECT_DIR$/../VParadigm/.vpprefdata/treestates/mVVpO8GGAqBwAQ0D" afterDir="false" />
-    </list>
+    <list default="true" id="cd503ff5-18d4-4f54-a93f-11440abc8136" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,14 +16,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -49,8 +33,12 @@
       <option name="presentableId" value="Default" />
       <updated>1667667655932</updated>
       <workItem from="1667667657427" duration="5000" />
+      <workItem from="1667920953757" duration="52000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
