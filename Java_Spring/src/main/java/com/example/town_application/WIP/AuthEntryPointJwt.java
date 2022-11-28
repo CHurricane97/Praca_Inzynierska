@@ -1,4 +1,4 @@
-package com.example.town_application.kubik;
+package com.example.town_application.WIP;
 
 import java.io.IOException;
 import java.util.HashMap;

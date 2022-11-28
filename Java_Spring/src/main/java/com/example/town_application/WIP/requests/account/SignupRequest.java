@@ -1,9 +1,8 @@
-package com.example.town_application.kubik;
+package com.example.town_application.WIP.requests.account;
 
-import com.example.town_application.model.PersonalData;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Set;
+
 import javax.validation.constraints.*;
 
 @Getter
@@ -25,6 +24,8 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 11, max = 11)
     private String pesel;
+
+
 
 
 //    @NotBlank

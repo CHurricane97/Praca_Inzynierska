@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -25,5 +25,9 @@ public class LoginRegister {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Users usersByUserId;
 
+public LoginRegister(Timestamp dateOfLogging, Users users){
+    this.dateOfLogging=dateOfLogging;
+    this.usersByUserId=users;
+}
 
 }

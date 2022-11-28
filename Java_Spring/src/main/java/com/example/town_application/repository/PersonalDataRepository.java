@@ -10,6 +10,10 @@ public interface PersonalDataRepository extends JpaRepository<PersonalData, Inte
 
     Optional<PersonalData> findByPesel(String pesel);
 
+    Optional<PersonalData>findByUsersByPersonalDataId(Integer userID);
+
+    boolean existsByPesel(String pesel);
+
     Optional<PersonalData> findByPersonalDataId(int personalDataId);
 
 }

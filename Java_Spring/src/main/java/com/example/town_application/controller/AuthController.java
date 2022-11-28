@@ -1,17 +1,17 @@
 package com.example.town_application.controller;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Timestamp;
 
 import javax.validation.Valid;
 
-import com.example.bookstore.payload.request.LoginRequest;
-import com.example.bookstore.payload.response.MessageResponse;
-import com.example.town_application.kubik.JwtResponse;
-import com.example.town_application.kubik.JwtUtils;
-import com.example.town_application.kubik.SignupRequest;
+
+import com.example.town_application.WIP.*;
+import com.example.town_application.WIP.requests.account.LoginRequest;
+import com.example.town_application.WIP.requests.account.SignupRequest;
+import com.example.town_application.model.LoginRegister;
 import com.example.town_application.model.PersonalData;
 import com.example.town_application.model.Users;
+import com.example.town_application.repository.LoginRegisterRepository;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,13 @@ public class AuthController {
     UsersRepository userRepository;
     PersonalDataRepository personalDataRepository;
     PasswordEncoder encoder;
+    LoginRegisterRepository loginRegisterRepository;
     JwtUtils jwtUtils;
 
+    @Autowired
+    public void setLoginRegisterRepository(LoginRegisterRepository loginRegisterRepository) {
+        this.loginRegisterRepository = loginRegisterRepository;
+    }
 
     @Autowired
     public void setPersonalDataRepository(PersonalDataRepository personalDataRepository) {
@@ -63,8 +68,9 @@ public class AuthController {
         this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/loginUser")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
 
         String jwt = jwtUtils.generateJwtToken(authenticationManager
                 .authenticate(
@@ -72,6 +78,44 @@ public class AuthController {
                                 loginRequest.getLogin(),
                                 loginRequest.getPassword())));
 
+        if (!userRepository.existsByLoginAndPermissionLevel(loginRequest.getLogin(), "ROLE_USER")) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Admin account not found!"));
+        } else {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Users users = userRepository.findByLogin(loginRequest.getLogin())
+                    .orElseThrow(() -> new UsernameNotFoundException("Can't find user"));
+            LoginRegister loginRegister = new LoginRegister(timestamp, users);
+            loginRegisterRepository.save(loginRegister);
+
+        }
+
+        return ResponseEntity.ok(new JwtResponse(jwt, "Bearer"));
+    }
+
+    @PostMapping("/loginAdmin")
+    public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody LoginRequest loginRequest) {
+
+
+        String jwt = jwtUtils.generateJwtToken(authenticationManager
+                .authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginRequest.getLogin(),
+                                loginRequest.getPassword())));
+
+        if (!userRepository.existsByLoginAndPermissionLevel(loginRequest.getLogin(), "ROLE_ADMIN")) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Admin account not found!"));
+        } else {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            Users users = userRepository.findByLogin(loginRequest.getLogin())
+                    .orElseThrow(() -> new UsernameNotFoundException("Can't find user"));
+            LoginRegister loginRegister = new LoginRegister(timestamp, users);
+            loginRegisterRepository.save(loginRegister);
+
+        }
         return ResponseEntity.ok(new JwtResponse(jwt, "Bearer"));
     }
 
@@ -87,17 +131,17 @@ public class AuthController {
         PersonalData personalData = personalDataRepository.findByPesel(signUpRequest.getPesel())
                 .orElseThrow(() -> new UsernameNotFoundException("Person Not Found with pesel: " + signUpRequest.getPesel()));
 
-        if(userRepository.existsByPermissionLevelAndPersonalDataForUsers(signUpRequest.getRole(), personalData)){
+        if (userRepository.existsByPermissionLevelAndPersonalDataForUsers(signUpRequest.getRole(), personalData)) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Account for this person with this permision already exists"));
         }
 
         Users user = new Users(
-                    signUpRequest.getLogin(),
-                    encoder.encode(signUpRequest.getPassword()),
-                    signUpRequest.getRole(),
-                    personalData);
+                signUpRequest.getLogin(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getRole(),
+                personalData);
 
         userRepository.save(user);
 

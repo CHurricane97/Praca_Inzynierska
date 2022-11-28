@@ -1,4 +1,4 @@
-package com.example.bookstore.payload.response;
+package com.example.town_application.WIP;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.example.town_application.kubik;
+package com.example.town_application.WIP;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

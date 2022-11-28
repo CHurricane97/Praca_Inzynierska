@@ -1,11 +1,10 @@
-package com.example.town_application.kubik;
+package com.example.town_application.WIP;
 
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 import com.example.town_application.model.Users;

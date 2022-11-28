@@ -1,4 +1,4 @@
-package com.example.town_application.kubik;
+package com.example.town_application.WIP;
 
 import com.example.town_application.model.Users;
 import com.example.town_application.repository.UsersRepository;

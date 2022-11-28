@@ -1,9 +1,9 @@
 package com.example.town_application.config;
 
 
-import com.example.town_application.kubik.AuthEntryPointJwt;
-import com.example.town_application.kubik.AuthTokenFilter;
-import com.example.town_application.kubik.UserDetailsServiceImpl;
+import com.example.town_application.WIP.AuthEntryPointJwt;
+import com.example.town_application.WIP.AuthTokenFilter;
+import com.example.town_application.WIP.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

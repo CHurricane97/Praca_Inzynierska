@@ -53,7 +53,19 @@ public class PersonalData {
     @OneToMany(mappedBy = "personalDataForUsers", cascade = CascadeType.ALL)
     private Collection<Users> usersByPersonalDataId;
 
+    public PersonalData(String name, String surname, String pesel, Date dateOfBirth, String city, String cityCode, String street, String houseNumber, String flatNumber) {
+        this.name = name;
+        this.surname = surname;
+        this.pesel = pesel;
+        this.dateOfBirth = dateOfBirth;
+        this.city = city;
+        this.cityCode = cityCode;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.flatNumber = flatNumber;
+    }
 
+    public PersonalData() {
 
-
+    }
 }
