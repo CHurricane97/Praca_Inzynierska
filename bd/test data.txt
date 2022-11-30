@@ -1,4 +1,4 @@
-INSERT INTO personal_data (name,surname,pesel,date_of_birth,city,city_code,street,house_nmber,flat_number)
+INSERT INTO personal_data (name,surname,pesel,date_of_birth,city,city_code,street,house_number,flat_number)
 VALUES
   ('Robert','Mckee','03356528672','2020-10-05','Mersin','02511','United Kingdom','99C','98L'),
   ('Zorita','Cline','68281724732','2020-10-26','Panihati','47377','Indonesia','17Q','31W'),
@@ -52,7 +52,27 @@ VALUES
   ('Rooney','Baird','96596517707','2020-10-10','Price','995711','Nigeria','61H','28H');
   
   
-  
+
+insert into motion_state (state) values ('Przyjęty'),
+                                        ('Przetwarzany'),
+                                        ('Zatwierdzony'),
+                                        ('Odrzucony');
+
+insert into motion_type (type) values ('Wniosek o dotację'),
+                                        ('Wniosek o dodatek węglowy'),
+                                        ('wniosek o dodatek osłonowy');  
+
+
+insert into action_type (type) values ('Przyjęcie wniosku'),
+                                        ('Przetwarzanie wniosku'),
+                                        ('Konsultacje z wnioskodawcą'),
+                                      ('Zatwierdzenie wniosku'),
+                                      ('Odrzucenie wniosku');
+
+
+
+
+
   INSERT INTO evaluation (motion_id,personal_data_id,grade,description)
 VALUES
   (1,1,'8','Ok'),

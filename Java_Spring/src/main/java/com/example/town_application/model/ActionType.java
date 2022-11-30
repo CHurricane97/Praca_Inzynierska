@@ -17,7 +17,7 @@ public class ActionType {
     @Column(name = "action_type_id", nullable = false)
     private int actionTypeId;
     @Basic
-    @Column(name = "type", nullable = false, length = 255)
+    @Column(name = "type", nullable = false, length = 255, unique = true)
     private String type;
     @OneToMany(mappedBy = "actionTypeByActionTypeId", cascade = CascadeType.ALL)
     private Collection<ActionTakenInMotion> actionTakenInMotionsByActionTypeId;

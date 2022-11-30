@@ -17,7 +17,7 @@ public class MotionState {
     @Column(name = "motion_state_id", nullable = false)
     private int motionStateId;
     @Basic
-    @Column(name = "state", nullable = false, length = 255)
+    @Column(name = "state", nullable = false, length = 255, unique = true)
     private String state;
     @OneToMany(mappedBy = "motionStateByMotionStateId", cascade = CascadeType.ALL)
     private Collection<Motion> motionsByMotionStateId;

@@ -17,7 +17,7 @@ public class MotionType {
     @Column(name = "motion_type_id", nullable = false)
     private int motionTypeId;
     @Basic
-    @Column(name = "type", nullable = false, length = 255)
+    @Column(name = "type", nullable = false, length = 255, unique = true)
     private String type;
     @OneToMany(mappedBy = "motionTypeByMotionTypeId", cascade = CascadeType.ALL)
     private Collection<Motion> motionsByMotionTypeId;

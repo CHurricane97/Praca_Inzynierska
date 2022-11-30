@@ -24,7 +24,7 @@ public class PersonalData {
     @Column(name = "surname", nullable = false, length = 255)
     private String surname;
     @Basic
-    @Column(name = "pesel", nullable = false, length = 11)
+    @Column(name = "pesel", nullable = false, length = 11, unique = true)
     private String pesel;
     @Basic
     @Column(name = "date_of_birth", nullable = true)

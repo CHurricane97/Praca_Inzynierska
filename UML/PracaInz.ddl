@@ -25,11 +25,11 @@ CREATE TABLE Motion (
   PRIMARY KEY (Motion_ID));
 CREATE TABLE Motion_Type (
   Motion_Type_ID SERIAL NOT NULL, 
-  Type           varchar(255) NOT NULL, 
+  Type           varchar(255) NOT NULL UNIQUE, 
   PRIMARY KEY (Motion_Type_ID));
 CREATE TABLE Motion_State (
   Motion_State_ID SERIAL NOT NULL, 
-  State           varchar(255) NOT NULL, 
+  State           varchar(255) NOT NULL UNIQUE, 
   PRIMARY KEY (Motion_State_ID));
 CREATE TABLE Action_Taken_In_Motion (
   Action_Taken_In_Motion_ID SERIAL NOT NULL, 
@@ -46,7 +46,7 @@ CREATE TABLE Evaluation (
   PRIMARY KEY (Evaluation_ID));
 CREATE TABLE Action_Type (
   Action_Type_ID SERIAL NOT NULL, 
-  Type           varchar(255) NOT NULL, 
+  Type           varchar(255) NOT NULL UNIQUE, 
   PRIMARY KEY (Action_Type_ID));
 CREATE TABLE Login_Register (
   Login_Register_ID SERIAL NOT NULL, 
