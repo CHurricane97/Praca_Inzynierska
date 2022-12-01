@@ -2,12 +2,17 @@ package com.example.town_application.repository;
 
 import com.example.town_application.model.MotionType;
 import com.example.town_application.model.PersonalData;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public interface PersonalDataRepository extends JpaRepository<PersonalData, Integer> {
+
+
 
     Optional<PersonalData> findByPesel(String pesel);
 

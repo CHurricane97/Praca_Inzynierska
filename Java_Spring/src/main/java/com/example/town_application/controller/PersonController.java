@@ -14,6 +14,7 @@ import com.example.town_application.model.Users;
 import com.example.town_application.model.dto.PersonalDataWithoutID;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
+import com.example.town_application.service.PersonalDataService;
 import org.apache.commons.validator.GenericValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,122 +39,45 @@ import static org.hibernate.validator.internal.util.Contracts.assertTrue;
 @RestController
 @RequestMapping("/api/person")
 public class PersonController {
-    PersonalDataRepository personalDataRepository;
-    JwtUtils jwtUtils;
-    UsersRepository userRepository;
 
-
+    PersonalDataService personalDataService;
 
     @Autowired
-    public void setPersonalDataRepository(PersonalDataRepository personalDataRepository) {
-        this.personalDataRepository = personalDataRepository;
+    public void setPersonalDataService(PersonalDataService personalDataService) {
+        this.personalDataService = personalDataService;
     }
-
-    @Autowired
-    public void setUsersRepository(UsersRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setJwtUtils(JwtUtils jwtUtils) {
-        this.jwtUtils = jwtUtils;
-    }
-
-
 
     @GetMapping("/getalldata")
     @PreAuthorize("hasRole('ADMIN')")
     public List<PersonalDataWithoutID> getAll(@RequestParam Integer page) {
-        ModelMapper modelMapper=new ModelMapper();
-        return personalDataRepository.findAll(PageRequest.of(--page, 20)
-                )
-                .stream()
-                .map(warehouseItem -> modelMapper.map(warehouseItem, PersonalDataWithoutID.class))
-                .collect(Collectors.toList());
+        return personalDataService.getAll(page);
     }
 
     @GetMapping("/getdatapesel")
     @PreAuthorize("hasRole('ADMIN')")
     public PersonalDataWithoutID getPersonalDataPesel(@RequestParam String pesel) {
-        PersonalData personalData=personalDataRepository.findByPesel(pesel).orElseThrow(() -> new UsernameNotFoundException("Wrong pesel"));
-        ModelMapper modelMapper=new ModelMapper();
-        PersonalDataWithoutID personalDataWithoutID=modelMapper.map(personalData, PersonalDataWithoutID.class);
-        return personalDataWithoutID;
+        return personalDataService.getPersonalDataPesel(pesel);
     }
 
     @GetMapping("/getdatatoken")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public PersonalDataWithoutID getPersonalDataToken(HttpServletRequest request) {
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(parseJwt(request))).orElseThrow(() -> new UsernameNotFoundException("Wrong Login"));
-        PersonalData personalData=users.getPersonalDataForUsers();
-        ModelMapper modelMapper=new ModelMapper();
-        PersonalDataWithoutID personalDataWithoutID=modelMapper.map(personalData, PersonalDataWithoutID.class);
-        return personalDataWithoutID;
+        return personalDataService.getPersonalDataToken(request);
     }
-
 
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody AddPersonRequest addPersonRequest) {
-        if (personalDataRepository.existsByPesel(addPersonRequest.getPesel())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Person with this pesel already exist!"));
-        }
-        if (!GenericValidator.isDate(addPersonRequest.getDate_of_birth(), "yyyy-MM-dd", true)) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Invalid Date of birth!"));
-        }
-        LocalDate dateOfBirth = LocalDate.parse(addPersonRequest.getDate_of_birth());
-        PersonalData personalData = new PersonalData(
-                addPersonRequest.getName(),
-                addPersonRequest.getSurname(),
-                addPersonRequest.getPesel(),
-                java.sql.Date.valueOf(dateOfBirth),
-                addPersonRequest.getCity(),
-                addPersonRequest.getCity_code(),
-                addPersonRequest.getStreet(),
-                addPersonRequest.getHouse_number(),
-                addPersonRequest.getFlat_number());
-        personalDataRepository.save(personalData);
-
-        return ResponseEntity.ok(new MessageResponse("Person added successfully!"));
+        return personalDataService.registerUser(addPersonRequest);
     }
 
 
     @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody UpdatePersonRequest updatePersonRequest) {
-        if (!personalDataRepository.existsByPesel(updatePersonRequest.getPesel())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Person with this pesel not exist!"));
-        }
-
-        PersonalData personalData = personalDataRepository.findByPesel(updatePersonRequest.getPesel())
-                .orElseThrow(() -> new UsernameNotFoundException("Person Not Found with pesel: " + updatePersonRequest.getPesel()));
-        personalData.setName(updatePersonRequest.getName());
-        personalData.setSurname(updatePersonRequest.getSurname());
-        personalData.setCity(updatePersonRequest.getCity());
-        personalData.setCityCode(updatePersonRequest.getCity_code());
-        personalData.setSurname(updatePersonRequest.getStreet());
-        personalData.setHouseNumber(updatePersonRequest.getHouse_number());
-        personalData.setFlatNumber(updatePersonRequest.getFlat_number());
-        personalDataRepository.save(personalData);
-
-        return ResponseEntity.ok(new MessageResponse("Person Updated successfully!"));
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UpdatePersonRequest updatePersonRequest) {
+        return personalDataService.updateUser(updatePersonRequest);
     }
 
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
-        }
-
-        return null;
-    }
 
 }

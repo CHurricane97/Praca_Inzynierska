@@ -1,5 +1,6 @@
 package com.example.town_application.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,13 @@ public class Config {
 
 //    http://localhost:8080/swagger-ui.html
 
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+
     @Bean
     public Docket swaggerApi() {
         return new Docket(DocumentationType. SWAGGER_2 )
@@ -35,6 +43,8 @@ public class Config {
                 .securitySchemes(singletonList(createSchema()))
                 .securityContexts(singletonList(createContext()));
     }
+
+
 
     private SecurityContext createContext() {
         return SecurityContext.builder()

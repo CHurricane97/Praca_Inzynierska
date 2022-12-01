@@ -29,4 +29,13 @@ public class ActionTakenInMotion {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ActionType actionTypeByActionTypeId;
 
+    public ActionTakenInMotion(Motion motionForActionInMotions, PersonalData personalDataForActionTakenInMotion, ActionType actionTypeByActionTypeId) {
+        this.motionForActionInMotions = motionForActionInMotions;
+        this.personalDataForActionTakenInMotion = personalDataForActionTakenInMotion;
+        this.actionTypeByActionTypeId = actionTypeByActionTypeId;
+    }
+
+    public ActionTakenInMotion() {
+
+    }
 }

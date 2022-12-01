@@ -33,5 +33,12 @@ public class Motion {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private MotionState motionStateByMotionStateId;
 
+    public Motion(PersonalData personalDataForMotions, MotionType motionTypeByMotionTypeId, MotionState motionStateByMotionStateId) {
+        this.personalDataForMotions = personalDataForMotions;
+        this.motionTypeByMotionTypeId = motionTypeByMotionTypeId;
+        this.motionStateByMotionStateId = motionStateByMotionStateId;
+    }
+    public Motion(){
 
+    }
 }
