@@ -8,4 +8,9 @@ import org.springframework.stereotype.Repository;
 public interface ActionTakenInMotionRepository  extends JpaRepository<ActionTakenInMotion, Integer> {
     Boolean existsByPersonalDataForActionTakenInMotionAndMotionForActionInMotionsAndActionTypeByActionTypeId(PersonalData personalData, Motion motion, ActionType actionType);
 
+    boolean existsByPersonalDataForActionTakenInMotion_PersonalDataIdAndMotionForActionInMotions_MotionId(int personalDataId, int motionId);
+
+
+
+
 }

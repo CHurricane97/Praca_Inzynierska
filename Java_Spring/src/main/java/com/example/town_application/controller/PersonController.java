@@ -12,6 +12,7 @@ import com.example.town_application.WIP.requests.personalData.ViewDataRequestUse
 import com.example.town_application.model.PersonalData;
 import com.example.town_application.model.Users;
 import com.example.town_application.model.dto.PersonalDataWithoutID;
+import com.example.town_application.model.dto.WorkerPersonalData;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
 import com.example.town_application.service.PersonalDataService;
@@ -77,6 +78,12 @@ public class PersonController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@Valid @RequestBody UpdatePersonRequest updatePersonRequest) {
         return personalDataService.updateUser(updatePersonRequest);
+    }
+
+    @GetMapping("/getAllWorkersForMotion")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<WorkerPersonalData> getAllWorkersForMotion(@RequestParam Integer page, @RequestParam Integer motionId, HttpServletRequest request) {
+        return personalDataService.getAllWorkersForMotion(page, motionId, request);
     }
 
 

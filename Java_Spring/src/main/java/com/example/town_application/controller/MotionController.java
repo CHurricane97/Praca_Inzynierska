@@ -28,10 +28,23 @@ public class MotionController {
     }
 
     @GetMapping("/getalldata")
-    @PreAuthorize("hasRole('ADMIN')")
+
     public List<MotionDetails> getAll(@RequestParam Integer page) {
         return motionService.getAll(page);
     }
+
+    @GetMapping("/getAllForUser")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<MotionDetails> getAllForUser(@RequestParam Integer page, HttpServletRequest request) {
+        return motionService.getAllForUser(page,  request);
+    }
+
+    @GetMapping("/getAllFinishedForUser")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<MotionDetails> getAllFinishedForUser(@RequestParam Integer page, HttpServletRequest request) {
+        return motionService.getAllFinishedForUser(page,  request);
+    }
+
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")

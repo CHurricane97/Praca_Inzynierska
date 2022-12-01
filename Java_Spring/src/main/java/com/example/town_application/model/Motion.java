@@ -16,18 +16,23 @@ public class Motion {
     @Id
     @Column(name = "motion_id", nullable = false)
     private int motionId;
+
     @OneToMany(mappedBy = "motionForActionInMotions", cascade = CascadeType.ALL)
     private Collection<ActionTakenInMotion> actionTakenInMotionsByMotionId;
+
     @OneToMany(mappedBy = "motionForEvaluation", cascade = CascadeType.ALL)
     private Collection<Evaluation> evaluationsByMotionId;
+
     @ManyToOne(targetEntity = PersonalData.class)
     @JoinColumn(name = "personal_data_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private PersonalData personalDataForMotions;
+
     @ManyToOne(targetEntity = MotionType.class)
     @JoinColumn(name = "motion_type_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private MotionType motionTypeByMotionTypeId;
+
     @ManyToOne(targetEntity = MotionState.class)
     @JoinColumn(name = "motion_state_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

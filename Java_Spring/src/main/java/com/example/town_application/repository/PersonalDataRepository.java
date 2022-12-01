@@ -2,6 +2,7 @@ package com.example.town_application.repository;
 
 import com.example.town_application.model.MotionType;
 import com.example.town_application.model.PersonalData;
+import com.example.town_application.model.dto.WorkerPersonalData;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,11 @@ public interface PersonalDataRepository extends JpaRepository<PersonalData, Inte
     boolean existsByPesel(String pesel);
 
     Optional<PersonalData> findByPersonalDataId(int personalDataId);
+
+    List<PersonalData> findDistinctByActionTakenInMotionsByPersonalDataId_MotionForActionInMotions_MotionId(int motionId, PageRequest pageRequest);
+
+
+
+
 
 }

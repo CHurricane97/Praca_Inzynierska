@@ -4,9 +4,12 @@ import com.example.town_application.WIP.JwtUtils;
 import com.example.town_application.WIP.MessageResponse;
 import com.example.town_application.WIP.requests.personalData.AddPersonRequest;
 import com.example.town_application.WIP.requests.personalData.UpdatePersonRequest;
+import com.example.town_application.model.Motion;
 import com.example.town_application.model.PersonalData;
 import com.example.town_application.model.Users;
 import com.example.town_application.model.dto.PersonalDataWithoutID;
+import com.example.town_application.model.dto.WorkerPersonalData;
+import com.example.town_application.repository.MotionRepository;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +39,7 @@ public class PersonalDataService {
     private final JwtUtils jwtUtils;
     private final UsersRepository userRepository;
     private final ModelMapper modelMapper;
+    private final MotionRepository motionRepository;
 
 
     public List<PersonalDataWithoutID> getAll(Integer page) {
@@ -46,12 +52,12 @@ public class PersonalDataService {
 
 
     public PersonalDataWithoutID getPersonalDataPesel(String pesel) {
-        PersonalData personalData = personalDataRepository.findByPesel(pesel).orElseThrow(() -> new UsernameNotFoundException("Wrong pesel"));
+        PersonalData personalData = personalDataRepository.findByPesel(pesel).orElseThrow(() -> new RuntimeException("Wrong pesel"));
         return modelMapper.map(personalData, PersonalDataWithoutID.class);
     }
 
     public PersonalDataWithoutID getPersonalDataToken(HttpServletRequest request) {
-        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(JwtUtils.parseJwt(request))).orElseThrow(() -> new UsernameNotFoundException("Wrong Login"));
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(JwtUtils.parseJwt(request))).orElseThrow(() -> new RuntimeException(("Wrong Login")));
         PersonalData personalData = users.getPersonalDataForUsers();
         return modelMapper.map(personalData, PersonalDataWithoutID.class);
     }
@@ -93,7 +99,7 @@ public class PersonalDataService {
         }
 
         PersonalData personalData = personalDataRepository.findByPesel(updatePersonRequest.getPesel())
-                .orElseThrow(() -> new UsernameNotFoundException("Person Not Found with pesel: " + updatePersonRequest.getPesel()));
+                .orElseThrow(() -> new RuntimeException(("Person Not Found with pesel: " + updatePersonRequest.getPesel())));
         personalData.setName(updatePersonRequest.getName());
         personalData.setSurname(updatePersonRequest.getSurname());
         personalData.setCity(updatePersonRequest.getCity());
@@ -104,6 +110,32 @@ public class PersonalDataService {
         personalDataRepository.save(personalData);
 
         return ResponseEntity.ok(new MessageResponse("Person Updated successfully!"));
+    }
+
+    public List<WorkerPersonalData> getAllWorkersForMotion(Integer page, Integer motionId, HttpServletRequest request) {
+        Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(JwtUtils.parseJwt(request))).orElseThrow(() -> new RuntimeException(("Wrong Login")));
+        PersonalData personalData = users.getPersonalDataForUsers();
+        Motion motion = motionRepository.findById(motionId).orElseThrow(() -> new RuntimeException(("Wrong Motion")));
+
+        if (motion.getPersonalDataForMotions().getPersonalDataId() != users.getUserId()) {
+            throw new RuntimeException("Wrong Motion");
+        }
+
+        List<WorkerPersonalData> workerPersonalDataList = personalDataRepository
+                .findDistinctByActionTakenInMotionsByPersonalDataId_MotionForActionInMotions_MotionId(motionId, PageRequest.of(--page, 20))
+                .stream()
+                .map(person -> modelMapper.map(person, WorkerPersonalData.class))
+                .toList();
+
+        workerPersonalDataList.forEach(per ->
+            per.setActionTakenInMotionsByPersonalDataId(per
+                    .getActionTakenInMotionsByPersonalDataId()
+                    .stream().filter(action -> action.getMotionForActionInMotions().getMotionId() == motionId)
+                    .toList()
+            )
+        );
+
+        return workerPersonalDataList;
     }
 
 }

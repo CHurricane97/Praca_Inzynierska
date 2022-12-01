@@ -17,17 +17,22 @@ public class Users {
     @Id
     @Column(name = "user_id", nullable = false)
     private int userId;
+
     @Basic
     @Column(name = "login", nullable = false, length = 255, unique = true)
     private String login;
+
     @Basic
     @Column(name = "password", nullable = false, length = 511)
     private String password;
+
     @Basic
     @Column(name = "permission_level", nullable = false, length = 255)
     private String permissionLevel;
+
     @OneToMany(mappedBy = "usersByUserId", cascade = CascadeType.ALL)
     private Collection<LoginRegister> loginRegistersByUserId;
+
     @ManyToOne(targetEntity = PersonalData.class)
     @JoinColumn(name = "personal_data_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
