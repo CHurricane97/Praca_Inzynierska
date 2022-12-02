@@ -140,7 +140,7 @@ public class MotionService {
 
         if (motionState.getState().equals("Zatwierdzony")) {
             ActionType actionType = actionTypeRepository.findByType("Zatwierdzenie wniosku").
-                    orElseThrow(() -> new UsernameNotFoundException("Action Type Error"));
+                    orElseThrow(() -> new RuntimeException("Action Type Error"));
             ActionTakenInMotion actionTakenInMotion = new ActionTakenInMotion(motion, workerPersonalData, actionType);
             actionTakenInMotionRepository.save(actionTakenInMotion);
             return ResponseEntity.ok(new MessageResponse("Motion updated successfully!"));

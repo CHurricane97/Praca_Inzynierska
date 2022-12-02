@@ -2,10 +2,13 @@ package com.example.town_application.controller;
 
 import java.sql.Timestamp;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 
 import com.example.town_application.WIP.*;
+import com.example.town_application.WIP.requests.account.ChangePasswordAdminRequest;
+import com.example.town_application.WIP.requests.account.ChangePasswordUserReqest;
 import com.example.town_application.WIP.requests.account.LoginRequest;
 import com.example.town_application.WIP.requests.account.SignupRequest;
 import com.example.town_application.model.LoginRegister;
@@ -14,17 +17,16 @@ import com.example.town_application.model.Users;
 import com.example.town_application.repository.LoginRegisterRepository;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
+import com.example.town_application.service.EvaluationService;
+import com.example.town_application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -37,6 +39,12 @@ public class AuthController {
     PasswordEncoder encoder;
     LoginRegisterRepository loginRegisterRepository;
     JwtUtils jwtUtils;
+    UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setLoginRegisterRepository(LoginRegisterRepository loginRegisterRepository) {
@@ -147,5 +155,19 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+    @PutMapping("/changePasswordUser")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> changePasswordUser(@Valid @RequestBody ChangePasswordUserReqest changePasswordUserReqest, HttpServletRequest request) {
+        return userService.changePasswordUser(changePasswordUserReqest.getPassword(), changePasswordUserReqest.getNewpassword(), request);
+    }
+
+    @PutMapping("/changePasswordAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> changePasswordAdmin(@Valid @RequestBody ChangePasswordAdminRequest changePasswordAdminRequest, HttpServletRequest request) {
+
+        return userService.changePasswordAdmin(changePasswordAdminRequest.getLogin(), changePasswordAdminRequest.getNewpassword(), request);
+    }
+
 
 }

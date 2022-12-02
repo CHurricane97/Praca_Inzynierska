@@ -1,0 +1,24 @@
+package com.example.town_application.service;
+
+import com.example.town_application.model.dto.MotionStateDTO;
+import com.example.town_application.model.dto.PersonalDataWithoutID;
+import com.example.town_application.repository.MotionStateRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class MotionStateService {
+    private final MotionStateRepository motionStateRepository;
+    private final ModelMapper modelMapper;
+    public List<MotionStateDTO> getAllMotionStates() {
+        return motionStateRepository.findAll().stream()
+                .map(warehouseItem -> modelMapper.map(warehouseItem, MotionStateDTO.class))
+                .collect(Collectors.toList());
+    }
+
+}

@@ -8,7 +8,8 @@ import com.example.town_application.model.Motion;
 import com.example.town_application.model.PersonalData;
 import com.example.town_application.model.Users;
 import com.example.town_application.model.dto.PersonalDataWithoutID;
-import com.example.town_application.model.dto.WorkerPersonalData;
+import com.example.town_application.model.dto.WorkerData;
+import com.example.town_application.model.dto.WorkerPersonalDataWithMotionAction;
 import com.example.town_application.repository.MotionRepository;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
@@ -17,15 +18,11 @@ import org.apache.commons.validator.GenericValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +109,7 @@ public class PersonalDataService {
         return ResponseEntity.ok(new MessageResponse("Person Updated successfully!"));
     }
 
-    public List<WorkerPersonalData> getAllWorkersForMotion(Integer page, Integer motionId, HttpServletRequest request) {
+    public List<WorkerPersonalDataWithMotionAction> getAllWorkersForMotion(Integer page, Integer motionId, HttpServletRequest request) {
         Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(JwtUtils.parseJwt(request))).orElseThrow(() -> new RuntimeException(("Wrong Login")));
         PersonalData personalData = users.getPersonalDataForUsers();
         Motion motion = motionRepository.findById(motionId).orElseThrow(() -> new RuntimeException(("Wrong Motion")));
@@ -121,13 +118,13 @@ public class PersonalDataService {
             throw new RuntimeException("Wrong Motion");
         }
 
-        List<WorkerPersonalData> workerPersonalDataList = personalDataRepository
+        List<WorkerPersonalDataWithMotionAction> workerPersonalDataWithMotionActionList = personalDataRepository
                 .findDistinctByActionTakenInMotionsByPersonalDataId_MotionForActionInMotions_MotionId(motionId, PageRequest.of(--page, 20))
                 .stream()
-                .map(person -> modelMapper.map(person, WorkerPersonalData.class))
+                .map(person -> modelMapper.map(person, WorkerPersonalDataWithMotionAction.class))
                 .toList();
 
-        workerPersonalDataList.forEach(per ->
+        workerPersonalDataWithMotionActionList.forEach(per ->
             per.setActionTakenInMotionsByPersonalDataId(per
                     .getActionTakenInMotionsByPersonalDataId()
                     .stream().filter(action -> action.getMotionForActionInMotions().getMotionId() == motionId)
@@ -135,7 +132,18 @@ public class PersonalDataService {
             )
         );
 
-        return workerPersonalDataList;
+        return workerPersonalDataWithMotionActionList;
+    }
+
+
+    public List<WorkerData> getAllWorkers(@RequestParam Integer page) {
+
+
+        return personalDataRepository.findDistinctByUsersByPersonalDataId_PermissionLevel("ROLE_ADMIN",PageRequest.of(--page, 20)
+                )
+                .stream()
+                .map(warehouseItem -> modelMapper.map(warehouseItem, WorkerData.class))
+                .collect(Collectors.toList());
     }
 
 }

@@ -15,6 +15,12 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
     List<Users> findAll();
 
+    List<Users> findByPersonalDataForUsers_PersonalDataId(int personalDataId);
+
+    List<Users> findByPermissionLevel(String permissionLevel);
+
+    Optional<Users> findByPersonalDataForUsers_Pesel(String pesel);
+
     Boolean existsByLoginAndPermissionLevel(String login, String permission_level);
 
     Boolean existsByPassword(String password);

@@ -70,6 +70,7 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
+                .antMatchers("/api/utility/**").permitAll()
                 .antMatchers("/api/person/**").permitAll()
                 .antMatchers("/api/motion/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
