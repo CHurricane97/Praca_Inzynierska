@@ -1,4 +1,4 @@
-package com.example.town_application.model.dto;
+package com.example.town_application.model.dto.actionDTOs;
 
 import com.example.town_application.model.ActionType;
 import com.example.town_application.model.Motion;

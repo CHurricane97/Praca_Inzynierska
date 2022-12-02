@@ -17,6 +17,8 @@ public interface MotionRepository  extends JpaRepository<Motion, Integer> {
     MotionState motionState, MotionState motionState2, PageRequest pageRequest);
     List<Motion>findAllByPersonalDataForMotions(PersonalData personalData, PageRequest pageRequest);
 
+    List<Motion> findByMotionStateByMotionStateId_StateNotAndMotionStateByMotionStateId_StateNot(String state, String state1, PageRequest pageRequest);
+
 
 
 

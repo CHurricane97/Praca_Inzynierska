@@ -3,9 +3,7 @@ package com.example.town_application.controller;
 
 import com.example.town_application.WIP.requests.motion.AddMotionRequest;
 import com.example.town_application.WIP.requests.motion.UpdateMotionStateRequest;
-import com.example.town_application.WIP.requests.personalData.AddPersonRequest;
-import com.example.town_application.model.dto.MotionDetails;
-import com.example.town_application.model.dto.PersonalDataWithoutID;
+import com.example.town_application.model.dto.motionDTOs.MotionDetails;
 import com.example.town_application.service.MotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +25,28 @@ public class MotionController {
         this.motionService = motionService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getalldata")
-
     public List<MotionDetails> getAll(@RequestParam Integer page) {
         return motionService.getAll(page);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getAllNotFinishedMotions")
+    public List<MotionDetails> getAllNotFinishedMotions(@RequestParam Integer page) {
+        return motionService.getAllNotFinishedMotions(page);
     }
 
     @GetMapping("/getAllForUser")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<MotionDetails> getAllForUser(@RequestParam Integer page, HttpServletRequest request) {
-        return motionService.getAllForUser(page,  request);
+        return motionService.getAllForUser(page, request);
     }
 
     @GetMapping("/getAllFinishedForUser")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<MotionDetails> getAllFinishedForUser(@RequestParam Integer page, HttpServletRequest request) {
-        return motionService.getAllFinishedForUser(page,  request);
+        return motionService.getAllFinishedForUser(page, request);
     }
 
 
@@ -52,12 +56,11 @@ public class MotionController {
         return motionService.addMotion(addMotionRequest, request);
     }
 
-    @PutMapping ("/updatestatus")
+    @PutMapping("/updatestatus")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updatemotionstatus(@RequestBody UpdateMotionStateRequest updateMotionStateRequest, HttpServletRequest request) {
         return motionService.updatemotionstatus(updateMotionStateRequest, request);
     }
-
 
 
 }

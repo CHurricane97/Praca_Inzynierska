@@ -3,9 +3,10 @@ package com.example.town_application.controller;
 
 import com.example.town_application.WIP.requests.personalData.AddPersonRequest;
 import com.example.town_application.WIP.requests.personalData.UpdatePersonRequest;
-import com.example.town_application.model.dto.PersonalDataWithoutID;
-import com.example.town_application.model.dto.WorkerData;
-import com.example.town_application.model.dto.WorkerPersonalDataWithMotionAction;
+import com.example.town_application.model.dto.loginRegisterDTOs.LoginReg;
+import com.example.town_application.model.dto.personalDataDTOs.PersonalDataWithoutID;
+import com.example.town_application.model.dto.personalDataDTOs.WorkerData;
+import com.example.town_application.model.dto.personalDataDTOs.WorkerPersonalDataWithMotionAction;
 import com.example.town_application.service.PersonalDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -75,6 +76,13 @@ public class PersonController {
     public List<WorkerData> getAllWorkers(@RequestParam Integer page) {
         return personalDataService.getAllWorkers(page);
     }
+
+    @GetMapping("/getLoginRegister")
+    //@PreAuthorize("hasRole('ADMIN')")
+    public List<LoginReg> getLoginRegister(@RequestParam Integer page) {
+        return personalDataService.getLoginRegister(page);
+    }
+
 
 
 }

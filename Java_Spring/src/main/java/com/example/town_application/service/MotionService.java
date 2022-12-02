@@ -6,7 +6,7 @@ import com.example.town_application.WIP.MessageResponse;
 import com.example.town_application.WIP.requests.motion.AddMotionRequest;
 import com.example.town_application.WIP.requests.motion.UpdateMotionStateRequest;
 import com.example.town_application.model.*;
-import com.example.town_application.model.dto.MotionDetails;
+import com.example.town_application.model.dto.motionDTOs.MotionDetails;
 
 import com.example.town_application.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +14,7 @@ import org.modelmapper.ModelMapper;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -48,6 +45,13 @@ public class MotionService {
                 .collect(Collectors.toList());
     }
 
+    public List<MotionDetails> getAllNotFinishedMotions(Integer page) {
+        return motionRepository.findByMotionStateByMotionStateId_StateNotAndMotionStateByMotionStateId_StateNot("Zatwierdzony", "Odrzucony", PageRequest.of(--page, 20)
+                )
+                .stream()
+                .map(warehouseItem -> modelMapper.map(warehouseItem, MotionDetails.class))
+                .collect(Collectors.toList());
+    }
 
     public List<MotionDetails> getAllForUser(Integer page, HttpServletRequest request) {
         Users users = userRepository.findByLogin(jwtUtils.getUserNameFromJwtToken(JwtUtils.parseJwt(request))).

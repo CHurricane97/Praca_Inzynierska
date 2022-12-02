@@ -1,7 +1,6 @@
 package com.example.town_application.service;
 
-import com.example.town_application.model.dto.ActionTypeDTO;
-import com.example.town_application.model.dto.MotionTypeDTO;
+import com.example.town_application.model.dto.actionDTOs.ActionTypeDTO;
 import com.example.town_application.repository.ActionTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

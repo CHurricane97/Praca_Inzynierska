@@ -1,6 +1,6 @@
-package com.example.town_application.model.dto;
+package com.example.town_application.model.dto.actionDTOs;
 
-import com.example.town_application.model.Motion;
+import com.example.town_application.model.dto.motionDTOs.MotionIDOnly;
 import lombok.Getter;
 import lombok.Setter;
 

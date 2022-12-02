@@ -1,4 +1,4 @@
-package com.example.town_application.model.dto;
+package com.example.town_application.model.dto.motionDTOs;
 
 import lombok.Getter;
 import lombok.Setter;

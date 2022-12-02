@@ -30,4 +30,7 @@ public LoginRegister(Timestamp dateOfLogging, Users users){
     this.usersByUserId=users;
 }
 
+    public LoginRegister(){
+    }
+
 }

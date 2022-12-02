@@ -1,4 +1,4 @@
-package com.example.town_application.model.dto;
+package com.example.town_application.model.dto.motionDTOs;
 
 import com.example.town_application.model.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

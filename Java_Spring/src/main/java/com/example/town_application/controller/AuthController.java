@@ -1,12 +1,8 @@
 package com.example.town_application.controller;
 
-import java.sql.Timestamp;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-
-import com.example.town_application.WIP.*;
+import com.example.town_application.WIP.JwtResponse;
+import com.example.town_application.WIP.JwtUtils;
+import com.example.town_application.WIP.MessageResponse;
 import com.example.town_application.WIP.requests.account.ChangePasswordAdminRequest;
 import com.example.town_application.WIP.requests.account.ChangePasswordUserReqest;
 import com.example.town_application.WIP.requests.account.LoginRequest;
@@ -17,7 +13,6 @@ import com.example.town_application.model.Users;
 import com.example.town_application.repository.LoginRegisterRepository;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
-import com.example.town_application.service.EvaluationService;
 import com.example.town_application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +22,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.sql.Timestamp;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -78,7 +77,11 @@ public class AuthController {
 
     @PostMapping("/loginUser")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
+        if (!userRepository.existsByLoginAndPermissionLevel(loginRequest.getLogin(), "ROLE_USER")) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: user account not found!"));
+        }
 
         String jwt = jwtUtils.generateJwtToken(authenticationManager
                 .authenticate(
@@ -86,25 +89,24 @@ public class AuthController {
                                 loginRequest.getLogin(),
                                 loginRequest.getPassword())));
 
-        if (!userRepository.existsByLoginAndPermissionLevel(loginRequest.getLogin(), "ROLE_USER")) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Admin account not found!"));
-        } else {
+
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Users users = userRepository.findByLogin(loginRequest.getLogin())
                     .orElseThrow(() -> new UsernameNotFoundException("Can't find user"));
             LoginRegister loginRegister = new LoginRegister(timestamp, users);
             loginRegisterRepository.save(loginRegister);
 
-        }
 
         return ResponseEntity.ok(new JwtResponse(jwt, "Bearer"));
     }
 
     @PostMapping("/loginAdmin")
     public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody LoginRequest loginRequest) {
-
+        if (!userRepository.existsByLoginAndPermissionLevel(loginRequest.getLogin(), "ROLE_ADMIN")) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Admin account not found!"));
+        }
 
         String jwt = jwtUtils.generateJwtToken(authenticationManager
                 .authenticate(
@@ -112,18 +114,14 @@ public class AuthController {
                                 loginRequest.getLogin(),
                                 loginRequest.getPassword())));
 
-        if (!userRepository.existsByLoginAndPermissionLevel(loginRequest.getLogin(), "ROLE_ADMIN")) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Admin account not found!"));
-        } else {
+
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             Users users = userRepository.findByLogin(loginRequest.getLogin())
                     .orElseThrow(() -> new UsernameNotFoundException("Can't find user"));
             LoginRegister loginRegister = new LoginRegister(timestamp, users);
             loginRegisterRepository.save(loginRegister);
 
-        }
+
         return ResponseEntity.ok(new JwtResponse(jwt, "Bearer"));
     }
 

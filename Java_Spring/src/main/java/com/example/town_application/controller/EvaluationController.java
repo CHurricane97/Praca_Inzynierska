@@ -2,8 +2,8 @@ package com.example.town_application.controller;
 
 import com.example.town_application.WIP.requests.evaluation.AddEvaluationRequest;
 import com.example.town_application.WIP.requests.evaluation.EditEvaluationRequest;
-import com.example.town_application.model.dto.EvaluationMadeByUser;
-import com.example.town_application.model.dto.EvaluationPublicPersonalDTO;
+import com.example.town_application.model.dto.evaluationDTOs.EvaluationMadeByUser;
+import com.example.town_application.model.dto.evaluationDTOs.EvaluationPublicPersonalDTO;
 import com.example.town_application.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

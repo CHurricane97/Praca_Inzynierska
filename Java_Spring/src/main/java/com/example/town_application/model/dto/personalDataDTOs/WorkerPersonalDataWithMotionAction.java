@@ -1,5 +1,6 @@
-package com.example.town_application.model.dto;
+package com.example.town_application.model.dto.personalDataDTOs;
 
+import com.example.town_application.model.dto.actionDTOs.ActionName;
 import lombok.Getter;
 import lombok.Setter;
 

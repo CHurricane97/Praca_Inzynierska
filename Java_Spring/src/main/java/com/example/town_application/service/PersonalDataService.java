@@ -7,9 +7,11 @@ import com.example.town_application.WIP.requests.personalData.UpdatePersonReques
 import com.example.town_application.model.Motion;
 import com.example.town_application.model.PersonalData;
 import com.example.town_application.model.Users;
-import com.example.town_application.model.dto.PersonalDataWithoutID;
-import com.example.town_application.model.dto.WorkerData;
-import com.example.town_application.model.dto.WorkerPersonalDataWithMotionAction;
+import com.example.town_application.model.dto.loginRegisterDTOs.LoginReg;
+import com.example.town_application.model.dto.personalDataDTOs.PersonalDataWithoutID;
+import com.example.town_application.model.dto.personalDataDTOs.WorkerData;
+import com.example.town_application.model.dto.personalDataDTOs.WorkerPersonalDataWithMotionAction;
+import com.example.town_application.repository.LoginRegisterRepository;
 import com.example.town_application.repository.MotionRepository;
 import com.example.town_application.repository.PersonalDataRepository;
 import com.example.town_application.repository.UsersRepository;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.GenericValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,7 @@ public class PersonalDataService {
     private final UsersRepository userRepository;
     private final ModelMapper modelMapper;
     private final MotionRepository motionRepository;
+    private final LoginRegisterRepository loginRegisterRepository;
 
 
     public List<PersonalDataWithoutID> getAll(Integer page) {
@@ -145,5 +148,14 @@ public class PersonalDataService {
                 .map(warehouseItem -> modelMapper.map(warehouseItem, WorkerData.class))
                 .collect(Collectors.toList());
     }
+
+
+    public List<LoginReg> getLoginRegister(@RequestParam Integer page) {
+        return loginRegisterRepository.findAll(PageRequest.of(--page, 20, Sort.by("dateOfLogging").descending())).stream()
+                .map(warehouseItem -> modelMapper.map(warehouseItem, LoginReg.class))
+                .collect(Collectors.toList());
+
+    }
+
 
 }

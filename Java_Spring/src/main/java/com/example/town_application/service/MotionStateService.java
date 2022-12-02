@@ -1,7 +1,6 @@
 package com.example.town_application.service;
 
-import com.example.town_application.model.dto.MotionStateDTO;
-import com.example.town_application.model.dto.PersonalDataWithoutID;
+import com.example.town_application.model.dto.motionDTOs.MotionStateDTO;
 import com.example.town_application.repository.MotionStateRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
