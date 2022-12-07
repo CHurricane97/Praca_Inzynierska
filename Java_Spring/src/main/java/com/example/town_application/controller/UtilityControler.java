@@ -10,6 +10,7 @@ import com.example.town_application.service.MotionStateService;
 import com.example.town_application.service.MotionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -54,7 +55,9 @@ public class UtilityControler {
     }
 
     @PostMapping("/addMotionType")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addMotionType(@Valid @RequestBody AddMotionTypeRequest addMotionTypeRequest) {
 
-    return motionTypeService.addMotionType(AddMotionTypeRequest addMotionTypeRequest);
+        return motionTypeService.addMotionType(addMotionTypeRequest);
     }
+}

@@ -1,6 +1,8 @@
 package com.example.town_application.service;
 
+import com.example.town_application.WIP.MessageResponse;
 import com.example.town_application.WIP.requests.utility.AddMotionTypeRequest;
+import com.example.town_application.model.MotionType;
 import com.example.town_application.model.dto.motionDTOs.MotionTypeDTO;
 import com.example.town_application.repository.MotionTypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +27,17 @@ public class MotionTypeService {
     }
 
 
-    public ResponseEntity<?> addMotionType(@Valid @RequestBody AddMotionTypeRequest addMotionTypeRequest) {
+    public ResponseEntity<?> addMotionType( AddMotionTypeRequest addMotionTypeRequest) {
 
-        mo
-        return motionTypeService.addMotionType(AddMotionTypeRequest addMotionTypeRequest);
+        if (motionTypeRepository.existsByTypeAllIgnoreCase(addMotionTypeRequest.getType())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Motion Type already in database!"));
+        }
+        MotionType motionType =new MotionType(addMotionTypeRequest.getType());
+        motionTypeRepository.save(motionType);
+        return ResponseEntity.ok(new MessageResponse("Motion Type added successfully!"));
+    }
+
 
 }

@@ -56,6 +56,8 @@ public class MotionController {
         return motionService.addMotion(addMotionRequest, request);
     }
 
+
+
     @PutMapping("/updatestatus")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updatemotionstatus(@RequestBody UpdateMotionStateRequest updateMotionStateRequest, HttpServletRequest request) {

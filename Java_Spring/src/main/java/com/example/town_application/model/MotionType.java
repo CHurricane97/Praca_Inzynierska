@@ -23,4 +23,11 @@ public class MotionType {
     private Collection<Motion> motionsByMotionTypeId;
 
 
+    public MotionType(String type) {
+        this.type = type;
+    }
+
+    public MotionType() {
+
+    }
 }

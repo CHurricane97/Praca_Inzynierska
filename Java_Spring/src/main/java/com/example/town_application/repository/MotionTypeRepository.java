@@ -9,4 +9,8 @@ import java.util.Optional;
 public interface MotionTypeRepository extends JpaRepository<MotionType, Integer> {
     Boolean existsByType(String type);
     Optional<MotionType>findByType(String type);
+
+    boolean existsByTypeAllIgnoreCase(String type);
+
+
 }
